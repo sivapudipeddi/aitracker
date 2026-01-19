@@ -3,177 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASI COMMAND | The Intelligence Aggregator</title>
+    <title>ASI COMMAND | NEURAL INTERFACE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
         :root {
-            --apple-bg: #fbfbfd;
-            --apple-text: #1d1d1f;
-            --apple-blue: #0066cc;
-            --glass: rgba(255, 255, 255, 0.8);
+            --accent: #6366f1;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--apple-bg);
-            color: var(--apple-text);
+            font-family: 'Inter', sans-serif;
+            background: #020617; /* Deepest Navy */
+            color: #f8fafc;
+            overflow-x: hidden;
             margin: 0;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
         }
 
-        .nav-glass {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+        /* Animated Mesh Gradient Background */
+        .mesh-bg {
             position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.15) 0, transparent 50%);
+            filter: blur(80px);
+            animation: drift 20s ease infinite alternate;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
+        @keyframes drift {
+            from { transform: scale(1); }
+            to { transform: scale(1.1) translate(20px, 20px); }
         }
 
-        .apple-card {
-            background: white;
+        /* Glass Bento Card */
+        .bento-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
             border-radius: 24px;
-            border: 1px solid #e5e7eb;
-            padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .apple-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.06);
-        }
-
-        .tab-btn {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: #86868b;
-            padding: 0.5rem 0;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            transition: 0.3s;
-            background: none;
-            border-top: none; border-left: none; border-right: none;
-        }
-
-        .tab-btn.active {
-            color: var(--apple-text);
-            border-bottom: 2px solid var(--apple-text);
-        }
-
-        .status-badge {
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--apple-blue);
-            margin-bottom: 0.75rem;
-            display: block;
-        }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1.1;
-        }
-
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
+            padding: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
             overflow: hidden;
+        }
+
+        .bento-card:hover {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Interaction: Glow Effect */
+        .bento-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(600px circle at var(--x) var(--y), rgba(99, 102, 241, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .bento-card:hover::after { opacity: 1; }
+
+        .tab-active {
+            color: white;
+            background: var(--accent);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        .status-pulse {
+            width: 8px; height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 10px #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            70% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.5; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="nav-glass">
-        <div class="container flex justify-between items-center h-16">
-            <div class="font-bold text-lg tracking-tighter">ASI COMMAND<span class="text-blue-600">.</span></div>
-            <div class="flex space-x-6">
-                <button onclick="switchTab('news')" id="tab-news" class="tab-btn">News Feed</button>
-                <button onclick="switchTab('researchers')" id="tab-researchers" class="tab-btn active">Elite 10</button>
-                <button onclick="switchTab('timeline')" id="tab-timeline" class="tab-btn">Timeline</button>
-            </div>
+    <div class="mesh-bg"></div>
+
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <div class="flex items-center gap-2 p-1.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3">
+            <button onclick="switchTab('news')" id="tab-news" class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest transition-all">NEWS</button>
+            <button onclick="switchTab('researchers')" id="tab-researchers" class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest transition-all tab-active">ELITE 10</button>
+            <button onclick="switchTab('timeline')" id="tab-timeline" class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest transition-all">TIMELINE</button>
         </div>
     </nav>
 
-    <header class="container pt-32 pb-12 text-center">
-        <h1 id="main-title">The Elite 10.</h1>
-        <p id="main-subtitle" class="text-gray-500 text-lg mt-4 max-w-xl mx-auto">Mapping the minds shaping the intelligence explosion.</p>
+    <header class="container mx-auto pt-32 pb-12 px-6 text-center">
+        <div class="flex justify-center items-center gap-2 mb-4">
+            <span class="status-pulse"></span>
+            <span class="mono text-[10px] tracking-[0.3em] text-indigo-400 font-bold uppercase">System Online: Ahmedabad Cluster</span>
+        </div>
+        <h1 id="main-title" class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4">Elite 10<span class="text-indigo-500">.</span></h1>
+        <p id="main-subtitle" class="text-slate-400 max-w-2xl mx-auto text-lg">Tracking the architects of the Singularity.</p>
     </header>
 
-    <main class="container pb-24">
-        <div id="content-grid" class="grid-layout">
+    <main class="container mx-auto px-6 pb-24">
+        <div id="content-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             </div>
     </main>
 
-    <footer class="container py-20 border-t border-gray-100 text-center">
-        <div class="text-[10px] font-bold tracking-[0.4em] text-gray-400 uppercase">
-            © 2026 MISSION ASI | Ahmedabad | Built for the Sacred Pact
-        </div>
-    </footer>
-
     <script>
-        // ==========================================
-        // CONFIGURATION: PASTE YOUR KEY HERE
-        // ==========================================
-        const NEWS_API_KEY = pub_a8b61b41269049d188934a1375a93eee; 
+        // CONFIGURATION
+        const NEWS_API_KEY = 'PASTE_YOUR_KEY_HERE'; 
 
-        // ==========================================
-        // DATA: ELITE 10 RESEARCHERS
-        // ==========================================
         const RESEARCHERS = [
-            { name: "Ilya Sutskever", role: "Founder, SSI", bio: "Former OpenAI Chief Scientist. Now focused exclusively on Safe Superintelligence (SSI) through the 2026 scaling protocols.", link: "https://x.com/ilyasut", meta: "Citations: 450k+" },
-            { name: "Andrej Karpathy", role: "Founder, Eureka Labs", bio: "Master of LLM architecture. Transitioned Tesla's AI vision to educational agents that teach models to reason.", link: "https://karpathy.ai", meta: "Deep Learning Legend" },
-            { name: "Demis Hassabis", role: "CEO, Google DeepMind", bio: "2024 Nobel Laureate. Architect of Gemini and AlphaFold 3, leading the fusion of biology and compute.", link: "https://deepmind.google", meta: "Nobel Prize 2024" },
-            { name: "Fei-Fei Li", role: "Stanford Professor / World Labs", bio: "2025 Queen Elizabeth Prize winner. Pioneering 'Spatial Intelligence' and human-centered AI systems.", link: "https://profiles.stanford.edu/fei-fei-li", meta: "Spatial AI Pioneer" },
-            { name: "Dario Amodei", role: "CEO, Anthropic", bio: "Creator of Claude. Leading the world in Constitutional AI and Mechanistic Interpretability.", link: "https://anthropic.com", meta: "Safety Architect" },
-            { name: "Jeff Dean", role: "Chief Scientist, Google", bio: "The engineer behind the infrastructure that makes ASI possible. Scaling Gemini to trillions of parameters.", link: "https://x.com/jeffdean", meta: "Infrastructure King" },
-            { name: "Mira Murati", role: "Founder, Thinking Machines", bio: "Leading the post-GPT deployment wave with focus on interactive reasoning and multi-modal safety.", link: "https://x.com/miramurati", meta: "Product Visionary" },
-            { name: "Yann LeCun", role: "Chief AI Scientist, Meta", bio: "Turing Award winner. Proponent of Objective-Driven AI and World Models over simple auto-regressive LLMs.", link: "http://yann.lecun.com", meta: "Turing Award" },
-            { name: "Aravind Srinivas", role: "CEO, Perplexity", bio: "Redefining the relationship between human knowledge and AI-powered real-time search.", link: "https://x.com/aravsrinivas", meta: "Search Disruptor" },
-            { name: "Greg Brockman", role: "President, OpenAI", bio: "The system architect who turned research into the most powerful consumer products in history.", link: "https://x.com/gdb", meta: "Execution Specialist" }
+            { name: "Ilya Sutskever", role: "SSI / OpenAI", bio: "The prophet of scaling. Now building Safe Superintelligence (SSI) with a singular focus on the alignment problem.", link: "https://x.com/ilyasut", meta: "Citations: 450k+" },
+            { name: "Andrej Karpathy", role: "Eureka Labs", bio: "De-constructing LLMs for human education. The bridge between raw compute and human understanding.", link: "https://karpathy.ai", meta: "Deep Learning Legend" },
+            { name: "Demis Hassabis", role: "Google DeepMind", bio: "Harnessing AI to solve science. AlphaFold 3 is just the beginning of the biological intelligence era.", link: "https://deepmind.google", meta: "Nobel Prize 2024" },
+            { name: "Fei-Fei Li", role: "World Labs", bio: "Pioneering Spatial Intelligence. Teaching models to understand the 3D physics of our world.", link: "https://profiles.stanford.edu/fei-fei-li", meta: "Spatial AI Leader" },
+            { name: "Dario Amodei", role: "Anthropic", bio: "The master of Safety. Building Claude via Constitutional AI and mechanistic transparency.", link: "https://anthropic.com", meta: "Safety First" }
         ];
 
-        // ==========================================
-        // DATA: ASI TIMELINE
-        // ==========================================
-        const TIMELINE = [
-            { title: "Weakly General AI", date: "Oct 2027", source: "Metaculus", desc: "AI passes the basic Turing tests for creative and professional labor." },
-            { title: "Autonomous Research", date: "Late 2026", source: "OpenAI Roadmap", desc: "AI models begin contributing to their own source code improvements." },
-            { title: "ASI Emergence", date: "2029-2032", source: "Sam Altman Forecast", desc: "Potential intelligence explosion where self-improvement becomes recursive." }
-        ];
-
-        // ==========================================
-        // CORE LOGIC
-        // ==========================================
         function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
+            const btns = ['news', 'researchers', 'timeline'];
+            btns.forEach(id => document.getElementById(`tab-${id}`).classList.remove('tab-active'));
+            document.getElementById(`tab-${tab}`).classList.add('tab-active');
             
             if (tab === 'researchers') renderResearchers();
             if (tab === 'timeline') renderTimeline();
@@ -181,73 +146,80 @@
         }
 
         function renderResearchers() {
-            updateHeaders("The Elite 10.", "Mapping the minds shaping the intelligence explosion.");
+            updateHeaders("Elite 10.", "The architects of the Singularity.");
             const grid = document.getElementById('content-grid');
             grid.innerHTML = RESEARCHERS.map(r => `
-                <div class="apple-card">
-                    <span class="status-badge">${r.meta}</span>
-                    <h2 class="text-2xl font-extrabold mb-1">${r.name}</h2>
-                    <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-6">${r.role}</p>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-8 flex-grow">${r.bio}</p>
-                    <a href="${r.link}" target="_blank" class="text-xs font-bold text-black border-t border-gray-100 pt-4 hover:text-blue-600 transition">View Intelligence Portfolio →</a>
+                <div class="bento-card flex flex-col">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="mono text-[10px] text-indigo-400 font-bold border border-indigo-400/30 px-2 py-1 rounded">${r.meta}</span>
+                    </div>
+                    <h2 class="text-2xl font-black mb-1">${r.name}</h2>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">${r.role}</p>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8 flex-grow">${r.bio}</p>
+                    <a href="${r.link}" target="_blank" class="text-xs font-bold py-3 text-center border border-white/5 rounded-xl hover:bg-white/10 transition">VIEW INTELLIGENCE →</a>
                 </div>
             `).join('');
+            attachGlow();
         }
 
         function renderTimeline() {
-            updateHeaders("ASI Timeline.", "The milestones on the path to the singularity.");
+            updateHeaders("Timeline.", "Milestones to 2029 and beyond.");
             const grid = document.getElementById('content-grid');
-            grid.innerHTML = TIMELINE.map(t => `
-                <div class="apple-card">
-                    <span class="status-badge">${t.source}</span>
-                    <h2 class="text-2xl font-extrabold mb-2">${t.title}</h2>
-                    <p class="text-xl font-bold text-blue-600 mb-4 tracking-tighter">${t.date}</p>
-                    <p class="text-gray-500 text-sm leading-relaxed">${t.desc}</p>
+            const data = [
+                { title: "Weakly General AI", date: "2027", desc: "AI passes the expert-level Turing Test." },
+                { title: "Autonomous Research", date: "2026", desc: "Models start coding their own successor architectures." },
+                { title: "ASI Emergence", date: "2029-2031", desc: "Self-improvement becomes recursive." }
+            ];
+            grid.innerHTML = data.map(t => `
+                <div class="bento-card border-l-4 border-l-indigo-500">
+                    <h2 class="text-3xl font-black mb-2">${t.title}</h2>
+                    <p class="text-indigo-400 font-bold mono mb-4">${t.date}</p>
+                    <p class="text-slate-400 text-sm">${t.desc}</p>
                 </div>
             `).join('');
+            attachGlow();
         }
 
         async function loadNews() {
-            updateHeaders("Neural News.", "Real-time updates from the global AI clusters.");
+            updateHeaders("Neural News.", "Processing global data streams...");
             const grid = document.getElementById('content-grid');
-            grid.innerHTML = '<div class="col-span-full text-center py-20 text-gray-400 animate-pulse font-bold tracking-widest">SYNCING GLOBAL FEEDS...</div>';
+            grid.innerHTML = '<div class="col-span-full text-center py-20 mono text-indigo-400 animate-pulse">CONNECTING TO CLUSTER...</div>';
 
             try {
-                const response = await fetch(`https://newsdata.io/api/1/news?apikey=${NEWS_API_KEY}&q=Artificial%20Intelligence%20OR%20AGI%20OR%20ASI&language=en`);
-                const data = await response.json();
-
-                if (data.results && data.results.length > 0) {
-                    grid.innerHTML = data.results.map(article => `
-                        <div class="apple-card">
-                            <span class="status-badge">${article.source_id.toUpperCase()}</span>
-                            <h2 class="text-xl font-extrabold mb-4 line-clamp-2">${article.title}</h2>
-                            <p class="text-gray-500 text-sm mb-8 flex-grow line-clamp-3">${article.description || 'Access intelligence report via full link.'}</p>
-                            <div class="flex justify-between items-center border-t border-gray-100 pt-4">
-                                <span class="text-[10px] font-bold text-gray-400">${new Date(article.pubDate).toLocaleDateString()}</span>
-                                <a href="${article.link}" target="_blank" class="text-xs font-bold text-blue-600">READ →</a>
-                            </div>
+                const res = await fetch(`https://newsdata.io/api/1/news?apikey=${NEWS_API_KEY}&q=AI%20AND%20(AGI%20OR%20ASI)&language=en`);
+                const data = await res.json();
+                if (data.results) {
+                    grid.innerHTML = data.results.map(a => `
+                        <div class="bento-card flex flex-col">
+                            <span class="text-[10px] font-bold text-indigo-400 mb-4">${a.source_id.toUpperCase()}</span>
+                            <h2 class="text-lg font-bold mb-4 line-clamp-2">${a.title}</h2>
+                            <p class="text-slate-500 text-xs mb-6 line-clamp-3">${a.description || 'Raw data access required.'}</p>
+                            <a href="${a.link}" target="_blank" class="mt-auto text-indigo-400 text-[10px] font-black tracking-widest">DECRYPT FULL STORY →</a>
                         </div>
                     `).join('');
-                } else {
-                    throw new Error();
                 }
             } catch (e) {
-                grid.innerHTML = `
-                    <div class="col-span-full apple-card p-12 text-center border-dashed border-2">
-                        <span class="status-badge">API Offline</span>
-                        <h2 class="text-2xl font-bold mb-4">Connection Required</h2>
-                        <p class="text-gray-500 mb-6">Paste your NewsData.io API key in the script to see live news. The credits may have expired.</p>
-                        <button onclick="switchTab('researchers')" class="bg-black text-white px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest">Return to Elite 10</button>
-                    </div>`;
+                grid.innerHTML = '<div class="col-span-full text-center py-10 text-red-400 font-bold">API KEY REQUIRED OR CREDITS EXPIRED.</div>';
             }
+            attachGlow();
         }
 
-        function updateHeaders(title, subtitle) {
-            document.getElementById('main-title').innerText = title;
-            document.getElementById('main-subtitle').innerText = subtitle;
+        function updateHeaders(t, s) {
+            document.getElementById('main-title').innerText = t;
+            document.getElementById('main-subtitle').innerText = s;
         }
 
-        // Initialize on Researchers tab
+        // Interaction: Mouse Follow Glow
+        function attachGlow() {
+            document.querySelectorAll('.bento-card').forEach(card => {
+                card.onmousemove = e => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+                };
+            });
+        }
+
         window.onload = renderResearchers;
     </script>
 </body>
