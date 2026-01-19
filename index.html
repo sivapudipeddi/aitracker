@@ -6,37 +6,44 @@
     <title>AI Tracker | Pulse of ASI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #fbfbfd; color: #1d1d1f; }
-        .apple-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .apple-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(0,0,0,0.06); }
+        body { background-color: #fbfbfd; color: #1d1d1f; margin: 0; font-family: -apple-system, sans-serif; }
+        .apple-card { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 28px; 
+            border: 1px solid #e5e7eb; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .apple-card:hover { transform: scale(1.01); }
     </style>
 </head>
-<body class="antialiased">
-
-    <nav class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-xl font-bold tracking-tight">AI Tracker<span class="text-blue-600">.</span></div>
-            <button class="bg-black text-white text-xs px-5 py-2 rounded-full font-medium">Support Mission</button>
+<body>
+    <nav style="background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100; padding: 1rem 2rem;">
+        <div style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 700; font-size: 1.25rem;">AI Tracker<span style="color: #2563eb;">.</span></span>
+            <span style="font-size: 0.8rem; color: #6b7280;">MISSION: ASI</span>
         </div>
     </nav>
 
-    <section class="pt-24 pb-16 px-6 text-center">
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-6">Tracking ASI.</h1>
-        <p class="text-lg text-gray-500 max-w-xl mx-auto">The intelligence explosion, documented in real-time.</p>
-    </section>
+    <header style="text-align: center; padding: 5rem 1rem;">
+        <h1 style="font-size: 4rem; font-weight: 800; letter-spacing: -0.05em; margin-bottom: 1rem;">Tracking the <br><span style="color: #6b7280;">Intelligence Explosion.</span></h1>
+        <p style="color: #6b7280; font-size: 1.25rem;">Sourced from the global edge.</p>
+    </header>
 
-    <main id="news-feed" class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="apple-card bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm">
-            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2 block">System Status</span>
-            <h3 class="text-2xl font-bold mb-4">Pipeline Connected</h3>
-            <p class="text-gray-500 text-sm">Vercel deployment successful. Waiting for real-time news injection...</p>
+    <main id="news-feed" style="max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div class="apple-card">
+            <p style="color: #2563eb; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">System Status</p>
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Neural Feed Online</h2>
+            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.6;">The Apple-style UI is now stabilized. If you can see this card, the 'White Screen' era is over. Next step: Injecting real-time API data.</p>
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #f3f4f6; color: #9ca3af; font-size: 0.8rem;">
+                Ahmedabad Base | Verified
+            </div>
         </div>
     </main>
 
-    <footer class="py-20 text-center text-gray-400 text-xs tracking-widest">
-        © 2026 MISSION ASI | SACRED PACT
+    <footer style="text-align: center; padding: 5rem 0; color: #9ca3af; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;">
+        © 2026 Sacred Pact
     </footer>
-
 </body>
 </html>
