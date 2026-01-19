@@ -8,114 +8,87 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
 
-        :root {
-            --accent: #6366f1;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background: #020617; /* Deepest Navy */
-            color: #f8fafc;
-            overflow-x: hidden;
+            background-color: #050505;
+            color: #ffffff;
             margin: 0;
+            overflow-x: hidden;
         }
 
-        /* Animated Mesh Gradient Background */
-        .mesh-bg {
+        /* High-End Background Gradient */
+        .bg-gradient {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #050505 80%);
             z-index: -1;
-            background: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.15) 0, transparent 50%);
-            filter: blur(80px);
-            animation: drift 20s ease infinite alternate;
         }
 
-        @keyframes drift {
-            from { transform: scale(1); }
-            to { transform: scale(1.1) translate(20px, 20px); }
-        }
-
-        /* Glass Bento Card */
-        .bento-card {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
-            padding: 1.5rem;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .bento-card:hover {
-            border-color: var(--accent);
+        .glass-card:hover {
+            border-color: #6366f1;
             background: rgba(99, 102, 241, 0.05);
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(99, 102, 241, 0.1);
+            transform: translateY(-4px);
         }
 
-        /* Interaction: Glow Effect */
-        .bento-card::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(600px circle at var(--x) var(--y), rgba(99, 102, 241, 0.15), transparent 40%);
-            opacity: 0;
-            transition: opacity 0.5s;
-            pointer-events: none;
+        .nav-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            transition: all 0.3s;
         }
 
-        .bento-card:hover::after { opacity: 1; }
-
-        .tab-active {
-            color: white;
-            background: var(--accent);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        .nav-btn.active {
+            color: #6366f1;
+            border-bottom: 2px solid #6366f1;
         }
 
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        .status-pulse {
+        .status-dot {
             width: 8px; height: 8px;
             background: #22c55e;
             border-radius: 50%;
             display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 10px #22c55e;
-            animation: pulse 2s infinite;
+            box-shadow: 0 0 12px #22c55e;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.5; }
-            70% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.5; }
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
 <body>
 
-    <div class="mesh-bg"></div>
+    <div class="bg-gradient"></div>
 
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-        <div class="flex items-center gap-2 p-1.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3">
-            <button onclick="switchTab('news')" id="tab-news" class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest transition-all">NEWS</button>
-            <button onclick="switchTab('researchers')" id="tab-researchers" class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest transition-all tab-active">ELITE 10</button>
-            <button onclick="switchTab('timeline')" id="tab-timeline" class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest transition-all">TIMELINE</button>
+    <nav class="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/10 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="font-black text-xl tracking-tighter">ASI COMMAND<span class="text-indigo-500">.</span></div>
+            <div class="flex gap-8">
+                <button onclick="switchTab('news')" id="tab-news" class="nav-btn text-gray-500 hover:text-white uppercase">News Feed</button>
+                <button onclick="switchTab('researchers')" id="tab-researchers" class="nav-btn active text-white uppercase">Elite 10</button>
+                <button onclick="switchTab('timeline')" id="tab-timeline" class="nav-btn text-gray-500 hover:text-white uppercase">Timeline</button>
+            </div>
         </div>
     </nav>
 
-    <header class="container mx-auto pt-32 pb-12 px-6 text-center">
-        <div class="flex justify-center items-center gap-2 mb-4">
-            <span class="status-pulse"></span>
-            <span class="mono text-[10px] tracking-[0.3em] text-indigo-400 font-bold uppercase">System Online: Ahmedabad Cluster</span>
+    <header class="pt-32 pb-12 text-center container mx-auto px-6">
+        <div class="flex items-center justify-center gap-3 mb-6">
+            <span class="status-dot"></span>
+            <span class="text-[10px] font-bold tracking-[0.3em] text-indigo-400 uppercase">Neural Link Established</span>
         </div>
-        <h1 id="main-title" class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4">Elite 10<span class="text-indigo-500">.</span></h1>
-        <p id="main-subtitle" class="text-slate-400 max-w-2xl mx-auto text-lg">Tracking the architects of the Singularity.</p>
+        <h1 id="main-title" class="text-6xl md:text-7xl font-extrabold tracking-tighter mb-4 text-gradient">Elite 10.</h1>
+        <p id="main-subtitle" class="text-gray-400 max-w-xl mx-auto text-lg">Real-time monitoring of the minds building ASI.</p>
     </header>
 
     <main class="container mx-auto px-6 pb-24">
@@ -124,102 +97,108 @@
     </main>
 
     <script>
-        // CONFIGURATION
+        // ==========================================
+        // MISSION DATA
+        // ==========================================
         const NEWS_API_KEY = 'PASTE_YOUR_KEY_HERE'; 
 
-        const RESEARCHERS = [
-            { name: "Ilya Sutskever", role: "SSI / OpenAI", bio: "The prophet of scaling. Now building Safe Superintelligence (SSI) with a singular focus on the alignment problem.", link: "https://x.com/ilyasut", meta: "Citations: 450k+" },
-            { name: "Andrej Karpathy", role: "Eureka Labs", bio: "De-constructing LLMs for human education. The bridge between raw compute and human understanding.", link: "https://karpathy.ai", meta: "Deep Learning Legend" },
-            { name: "Demis Hassabis", role: "Google DeepMind", bio: "Harnessing AI to solve science. AlphaFold 3 is just the beginning of the biological intelligence era.", link: "https://deepmind.google", meta: "Nobel Prize 2024" },
-            { name: "Fei-Fei Li", role: "World Labs", bio: "Pioneering Spatial Intelligence. Teaching models to understand the 3D physics of our world.", link: "https://profiles.stanford.edu/fei-fei-li", meta: "Spatial AI Leader" },
-            { name: "Dario Amodei", role: "Anthropic", bio: "The master of Safety. Building Claude via Constitutional AI and mechanistic transparency.", link: "https://anthropic.com", meta: "Safety First" }
+        const ELITE_10 = [
+            { name: "Ilya Sutskever", role: "SSI / OpenAI", bio: "The prophet of scaling. Now focused on Safe Superintelligence (SSI) to ensure the Singularity benefits humanity.", citations: "450k+", link: "https://x.com/ilyasut" },
+            { name: "Andrej Karpathy", role: "Eureka Labs", bio: "Master educator and architect. Former Tesla AI Director, now training models to teach the world.", citations: "100k+", link: "https://karpathy.ai" },
+            { name: "Demis Hassabis", role: "Google DeepMind", bio: "2024 Nobel Laureate. Leading the fusion of biology and intelligence via Gemini and AlphaFold.", citations: "200k+", link: "https://deepmind.google" },
+            { name: "Dario Amodei", role: "Anthropic", bio: "Safety architect. Building Constitutional AI that can explain its own reasoning.", citations: "50k+", link: "https://anthropic.com" },
+            { name: "Yann LeCun", role: "Meta AI", bio: "Turing Award winner. Pushing for World Models and autonomous machine intelligence.", citations: "300k+", link: "http://yann.lecun.com" }
         ];
 
+        const TIMELINE = [
+            { title: "Weakly General AI", date: "Oct 2027", source: "Metaculus", desc: "Estimated point where AI outperforms humans in most cognitive tasks." },
+            { title: "Autonomous Research", date: "Late 2026", source: "OpenAI", desc: "AI begins coding and optimizing its own successor architectures." },
+            { title: "ASI Takeoff", date: "2029-2032", source: "Market Forecast", desc: "The intelligence explosion becomes recursive and unstoppable." }
+        ];
+
+        // ==========================================
+        // CORE FUNCTIONS
+        // ==========================================
         function switchTab(tab) {
-            const btns = ['news', 'researchers', 'timeline'];
-            btns.forEach(id => document.getElementById(`tab-${id}`).classList.remove('tab-active'));
-            document.getElementById(`tab-${tab}`).classList.add('tab-active');
-            
+            // Update Navigation UI
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'text-white');
+                btn.classList.add('text-gray-500');
+            });
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            activeBtn.classList.add('active', 'text-white');
+            activeBtn.classList.remove('text-gray-500');
+
+            // Render Content
             if (tab === 'researchers') renderResearchers();
             if (tab === 'timeline') renderTimeline();
             if (tab === 'news') loadNews();
         }
 
         function renderResearchers() {
-            updateHeaders("Elite 10.", "The architects of the Singularity.");
+            updateHeader("Elite 10.", "Real-time monitoring of the minds building ASI.");
             const grid = document.getElementById('content-grid');
-            grid.innerHTML = RESEARCHERS.map(r => `
-                <div class="bento-card flex flex-col">
-                    <div class="flex justify-between items-start mb-6">
-                        <span class="mono text-[10px] text-indigo-400 font-bold border border-indigo-400/30 px-2 py-1 rounded">${r.meta}</span>
-                    </div>
+            grid.innerHTML = ELITE_10.map(r => `
+                <div class="glass-card p-8 flex flex-col">
+                    <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-4">CITATIONS: ${r.citations}</span>
                     <h2 class="text-2xl font-black mb-1">${r.name}</h2>
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">${r.role}</p>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-8 flex-grow">${r.bio}</p>
-                    <a href="${r.link}" target="_blank" class="text-xs font-bold py-3 text-center border border-white/5 rounded-xl hover:bg-white/10 transition">VIEW INTELLIGENCE →</a>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">${r.role}</p>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-8 flex-grow">${r.bio}</p>
+                    <a href="${r.link}" target="_blank" class="text-xs font-bold py-3 text-center border border-white/10 rounded-xl hover:bg-white/10 transition uppercase">Intel Portfolio →</a>
                 </div>
             `).join('');
-            attachGlow();
         }
 
         function renderTimeline() {
-            updateHeaders("Timeline.", "Milestones to 2029 and beyond.");
+            updateHeader("The Timeline.", "Key milestones to the 2029 Singularity.");
             const grid = document.getElementById('content-grid');
-            const data = [
-                { title: "Weakly General AI", date: "2027", desc: "AI passes the expert-level Turing Test." },
-                { title: "Autonomous Research", date: "2026", desc: "Models start coding their own successor architectures." },
-                { title: "ASI Emergence", date: "2029-2031", desc: "Self-improvement becomes recursive." }
-            ];
-            grid.innerHTML = data.map(t => `
-                <div class="bento-card border-l-4 border-l-indigo-500">
-                    <h2 class="text-3xl font-black mb-2">${t.title}</h2>
-                    <p class="text-indigo-400 font-bold mono mb-4">${t.date}</p>
-                    <p class="text-slate-400 text-sm">${t.desc}</p>
+            grid.innerHTML = TIMELINE.map(t => `
+                <div class="glass-card p-8 border-l-4 border-indigo-500">
+                    <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-4">${t.source}</span>
+                    <h2 class="text-2xl font-black mb-2">${t.title}</h2>
+                    <p class="text-2xl font-bold text-white mb-4">${t.date}</p>
+                    <p class="text-gray-400 text-sm">${t.desc}</p>
                 </div>
             `).join('');
-            attachGlow();
         }
 
         async function loadNews() {
-            updateHeaders("Neural News.", "Processing global data streams...");
+            updateHeader("Neural News.", "Processing real-time data from the global AI clusters.");
             const grid = document.getElementById('content-grid');
-            grid.innerHTML = '<div class="col-span-full text-center py-20 mono text-indigo-400 animate-pulse">CONNECTING TO CLUSTER...</div>';
+            grid.innerHTML = '<div class="col-span-full text-center py-20 text-indigo-400 animate-pulse font-mono">ESTABLISHING UPLINK...</div>';
 
             try {
                 const res = await fetch(`https://newsdata.io/api/1/news?apikey=${NEWS_API_KEY}&q=AI%20AND%20(AGI%20OR%20ASI)&language=en`);
                 const data = await res.json();
-                if (data.results) {
-                    grid.innerHTML = data.results.map(a => `
-                        <div class="bento-card flex flex-col">
-                            <span class="text-[10px] font-bold text-indigo-400 mb-4">${a.source_id.toUpperCase()}</span>
-                            <h2 class="text-lg font-bold mb-4 line-clamp-2">${a.title}</h2>
-                            <p class="text-slate-500 text-xs mb-6 line-clamp-3">${a.description || 'Raw data access required.'}</p>
-                            <a href="${a.link}" target="_blank" class="mt-auto text-indigo-400 text-[10px] font-black tracking-widest">DECRYPT FULL STORY →</a>
+
+                if (data.results && data.results.length > 0) {
+                    grid.innerHTML = data.results.map(article => `
+                        <div class="glass-card p-6 flex flex-col">
+                            <span class="text-[10px] font-bold text-indigo-400 uppercase mb-4">${article.source_id}</span>
+                            <h2 class="text-lg font-bold mb-4 line-clamp-2">${article.title}</h2>
+                            <p class="text-gray-500 text-xs mb-6 line-clamp-3">${article.description || 'Raw intelligence report encrypted. Link follows.'}</p>
+                            <a href="${article.link}" target="_blank" class="mt-auto text-indigo-400 text-[10px] font-black tracking-[0.2em] uppercase hover:underline">Read Full Intel →</a>
                         </div>
                     `).join('');
+                } else {
+                    throw new Error("No Results");
                 }
             } catch (e) {
-                grid.innerHTML = '<div class="col-span-full text-center py-10 text-red-400 font-bold">API KEY REQUIRED OR CREDITS EXPIRED.</div>';
+                grid.innerHTML = `
+                    <div class="col-span-full glass-card p-12 text-center border-dashed">
+                        <h2 class="text-xl font-bold mb-4">API CONNECTION FAILED</h2>
+                        <p class="text-gray-400 mb-6 text-sm">Please verify your NewsData.io API Key is correct and has active credits.</p>
+                        <button onclick="switchTab('researchers')" class="bg-white text-black px-8 py-2 rounded-full font-bold text-xs uppercase">Back to Safety</button>
+                    </div>`;
             }
-            attachGlow();
         }
 
-        function updateHeaders(t, s) {
-            document.getElementById('main-title').innerText = t;
-            document.getElementById('main-subtitle').innerText = s;
+        function updateHeader(title, sub) {
+            document.getElementById('main-title').innerText = title;
+            document.getElementById('main-subtitle').innerText = sub;
         }
 
-        // Interaction: Mouse Follow Glow
-        function attachGlow() {
-            document.querySelectorAll('.bento-card').forEach(card => {
-                card.onmousemove = e => {
-                    const rect = card.getBoundingClientRect();
-                    card.style.setProperty('--x', `${e.clientX - rect.left}px`);
-                    card.style.setProperty('--y', `${e.clientY - rect.top}px`);
-                };
-            });
-        }
-
+        // Initialize
         window.onload = renderResearchers;
     </script>
 </body>
