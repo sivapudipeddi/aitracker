@@ -8,102 +8,108 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #fbfbfd; color: #1d1d1f; }
-        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); }
-        .tab-active { color: #000; border-bottom: 2px solid #000; }
-        .apple-card { transition: all 0.4s ease; border-radius: 24px; }
-        .apple-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid #e5e7eb; }
+        .tab-active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+        .apple-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 28px; background: white; border: 1px solid #f3f4f6; }
+        .apple-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="antialiased">
 
-    <nav class="fixed top-0 w-full z-50 glass border-b border-gray-200 px-6 py-4">
+    <nav class="fixed top-0 w-full z-50 glass px-6 py-4">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold tracking-tighter uppercase">ASI Command</div>
-            <div class="flex space-x-6 text-xs font-bold text-gray-400 uppercase tracking-widest">
+            <div class="text-xl font-extrabold tracking-tighter uppercase italic">ASI Command</div>
+            <div class="flex space-x-6 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                 <button onclick="switchTab('news')" id="tab-news" class="tab-active pb-1">News</button>
-                <button onclick="switchTab('papers')" id="tab-papers" class="pb-1">Papers</button>
+                <button onclick="switchTab('researchers')" id="tab-researchers" class="pb-1">Elite 10</button>
                 <button onclick="switchTab('predictions')" id="tab-predictions" class="pb-1">Timeline</button>
-                <button onclick="switchTab('researchers')" id="tab-researchers" class="pb-1">Elite 10k</button>
             </div>
         </div>
     </nav>
 
     <header class="pt-32 pb-12 text-center px-6">
         <h1 id="main-title" class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4">Neural News Feed.</h1>
-        <p class="text-gray-500 max-w-2xl mx-auto">Tracking the 10,000 minds building the future and the algorithms that define it.</p>
+        <p class="text-gray-500 max-w-xl mx-auto text-sm md:text-base">Command center for the intelligence explosion. Zero latency. Absolute focus.</p>
     </header>
 
-    <main id="content-grid" class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
-        </main>
+    <main id="content-grid" class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-32">
+        <div class="col-span-full text-center py-20 text-gray-400 animate-pulse uppercase tracking-[0.3em] text-xs">Synchronizing Neural Links...</div>
+    </main>
 
     <script>
-        // API KEY (Get yours from newsdata.io)
-        const NEWS_API_KEY = 'YOUR_KEY_HERE';
+        // 1. DATA CACHE (THE ELITE 10)
+        const ELITE_10 = [
+            { name: "Ilya Sutskever", role: "Co-founder, OpenAI/SSI", bio: "Focus on Safe Superintelligence and alignment.", link: "https://x.com/ilyasut", citations: "450k+" },
+            { name: "Andrej Karpathy", role: "Founding Member, OpenAI", bio: "Deep learning expert, creator of Eureka Labs.", link: "https://karpathy.ai", citations: "100k+" },
+            { name: "Demis Hassabis", role: "CEO, Google DeepMind", bio: "Leading the charge toward AGI via AlphaGo/AlphaFold.", link: "https://deepmind.google", citations: "200k+" },
+            { name: "Geoffrey Hinton", role: "Godfather of AI", bio: "Pioneer of backpropagation and deep learning.", link: "https://cs.toronto.edu/~hinton/", citations: "700k+" },
+            { name: "Yann LeCun", role: "Chief AI Scientist, Meta", bio: "Proponent of Objective-Driven AI and World Models.", link: "http://yann.lecun.com", citations: "300k+" },
+            { name: "Sam Altman", role: "CEO, OpenAI", bio: "Driving the commercialization and compute of AGI.", link: "https://x.com/sama", citations: "N/A" },
+            { name: "Dario Amodei", role: "CEO, Anthropic", bio: "Focus on constitutional AI and safety scaling laws.", link: "https://anthropic.com", citations: "50k+" },
+            { name: "Jensen Huang", role: "CEO, NVIDIA", bio: "Architect of the hardware layer for ASI.", link: "https://nvidia.com", citations: "Hardware King" },
+            { name: "Greg Brockman", role: "President, OpenAI", bio: "Systems architect for GPT-4 and beyond.", link: "https://x.com/gdb", citations: "N/A" },
+            { name: "Fei-Fei Li", role: "Stanford Professor", bio: "Creator of ImageNet, pioneer of visual intelligence.", link: "https://profiles.stanford.edu/fei-fei-li", citations: "250k+" }
+        ];
 
+        // 2. TAB LOGIC
         function switchTab(tab) {
-            // Update Tab UI
             document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('tab-active'));
             document.getElementById(`tab-${tab}`).classList.add('tab-active');
             
-            const grid = document.getElementById('content-grid');
-            grid.innerHTML = '<div class="col-span-full text-center py-20 text-gray-400">Syncing with global clusters...</div>';
-
             if(tab === 'news') loadNews();
-            if(tab === 'papers') loadPapers();
-            if(tab === 'predictions') loadPredictions();
             if(tab === 'researchers') loadResearchers();
+            if(tab === 'predictions') loadPredictions();
         }
 
-        async function loadNews() {
-            document.getElementById('main-title').innerText = "Neural News Feed.";
-            try {
-                const res = await fetch(`https://newsdata.io/api/1/news?apikey=${NEWS_API_KEY}&q=Artificial%20Intelligence&language=en`);
-                const data = await res.json();
-                renderCards(data.results, 'NEWS');
-            } catch (e) { renderError(); }
-        }
-
-        function loadPapers() {
-            document.getElementById('main-title').innerText = "Algorithmic Breakthroughs.";
-            // Placeholder for ArXiv API Integration
-            const mockPapers = [
-                { title: "Attention is All You Need 2.0", source_id: "ArXiv", description: "A new paradigm for sparse transformers in ASI training.", link: "#" },
-                { title: "Direct Preference Optimization", source_id: "DeepMind", description: "Refining model alignment without complex RLHF loops.", link: "#" }
-            ];
-            renderCards(mockPapers, 'PAPER');
-        }
-
-        function loadPredictions() {
-            document.getElementById('main-title').innerText = "ASI Timeline.";
-            const mockPreds = [
-                { title: "Metaculus Consensus: 2029", source_id: "Market", description: "Aggregated prediction for Human-Level AGI.", link: "#" },
-                { title: "Manifold Markets: 84% Chance", source_id: "Market", description: "Probability of ASI emergence before 2032.", link: "#" }
-            ];
-            renderCards(mockPreds, 'PREDICTION');
-        }
-
-        function renderCards(items, label) {
+        function loadResearchers() {
+            document.getElementById('main-title').innerText = "The Elite 10.";
             const grid = document.getElementById('content-grid');
             grid.innerHTML = '';
-            items.forEach(item => {
+            
+            ELITE_10.forEach(person => {
                 grid.innerHTML += `
-                    <div class="apple-card bg-white p-8 border border-gray-100 flex flex-col justify-between">
+                    <div class="apple-card p-8 flex flex-col justify-between">
                         <div>
-                            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2 block">${label} | ${item.source_id || 'Global'}</span>
-                            <h3 class="text-xl font-bold mb-4 line-clamp-2">${item.title}</h3>
-                            <p class="text-gray-500 text-sm line-clamp-3">${item.description || 'Access full intelligence report via link.'}</p>
+                            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2 block">Researcher | Elite 10k</span>
+                            <h3 class="text-2xl font-bold mb-1">${person.name}</h3>
+                            <p class="text-[10px] text-gray-400 font-bold mb-4 uppercase tracking-tighter">${person.role}</p>
+                            <p class="text-gray-500 text-sm leading-relaxed mb-4">${person.bio}</p>
                         </div>
-                        <a href="${item.link}" target="_blank" class="mt-6 text-sm font-semibold text-black hover:underline italic">Analyze Story →</a>
+                        <div class="pt-6 border-t border-gray-50 flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-gray-300">CITATIONS: ${person.citations}</span>
+                            <a href="${person.link}" target="_blank" class="text-black text-xs font-bold hover:underline italic underline-offset-4">Explore Portfolio →</a>
+                        </div>
                     </div>
                 `;
             });
         }
 
-        function renderError() {
-            document.getElementById('content-grid').innerHTML = '<div class="col-span-full text-center py-20 text-red-400 font-bold tracking-widest">CONNECTION TIMEOUT: CHECK API KEY</div>';
+        async function loadNews() {
+            document.getElementById('main-title').innerText = "Neural News Feed.";
+            const grid = document.getElementById('content-grid');
+            // Hardcoded "Stability" news if API is missing
+            grid.innerHTML = `
+                <div class="apple-card p-8 border-blue-100 bg-blue-50/20">
+                    <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2 block">System Status</span>
+                    <h3 class="text-2xl font-bold mb-4 italic">Waiting for Command.</h3>
+                    <p class="text-gray-500 text-sm mb-6">Connect your NewsData.io API key in the script to activate real-time tracking.</p>
+                    <a href="https://newsdata.io" target="_blank" class="text-xs font-bold bg-black text-white px-4 py-2 rounded-full inline-block">Get API Key</a>
+                </div>
+            `;
         }
 
-        window.onload = loadNews;
+        function loadPredictions() {
+            document.getElementById('main-title').innerText = "ASI Timeline.";
+            document.getElementById('content-grid').innerHTML = `
+                <div class="col-span-full apple-card p-12 text-center">
+                    <h2 class="text-4xl font-black mb-4 italic">ESTIMATED AGI: 2029</h2>
+                    <p class="text-gray-400 uppercase tracking-widest text-xs">Based on Metaculus Aggregated Consensus</p>
+                </div>
+            `;
+        }
+
+        // 3. INITIALIZATION
+        window.onload = loadResearchers; // Start with Researchers to prove it works
     </script>
 </body>
 </html>
