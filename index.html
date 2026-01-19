@@ -3,113 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASI Command | Command Center</title>
+    <title>ASI Command | The Intelligence Aggregator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* CORE CSS: This will never break */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #fbfbfd; color: #1d1d1f; }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid #e5e7eb; }
-        .tab-active { color: #2563eb; border-bottom: 2px solid #2563eb; }
-        .apple-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 28px; background: white; border: 1px solid #f3f4f6; }
-        .apple-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        body { font-family: 'Inter', sans-serif; background-color: #fbfbfd; color: #1d1d1f; margin: 0; }
+        .nav-glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid #e5e7eb; position: fixed; top: 0; width: 100%; z-index: 1000; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        .apple-card { background: white; border-radius: 28px; border: 1px solid #f3f4f6; padding: 2rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); height: 100%; display: flex; flex-direction: column; }
+        .apple-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(0,0,0,0.06); }
+        .tab-btn { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; padding-bottom: 4px; border-bottom: 2px solid transparent; transition: all 0.3s; }
+        .tab-btn.active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; padding-bottom: 5rem; }
+        .status-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #2563eb; margin-bottom: 0.5rem; display: block; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <nav class="fixed top-0 w-full z-50 glass px-6 py-4">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-xl font-extrabold tracking-tighter uppercase italic">ASI Command</div>
-            <div class="flex space-x-6 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                <button onclick="switchTab('news')" id="tab-news" class="tab-active pb-1">News</button>
-                <button onclick="switchTab('researchers')" id="tab-researchers" class="pb-1">Elite 10</button>
-                <button onclick="switchTab('predictions')" id="tab-predictions" class="pb-1">Timeline</button>
+    <nav class="nav-glass">
+        <div class="container" style="height: 70px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em;">ASI COMMAND<span style="color: #2563eb;">.</span></div>
+            <div style="display: flex; gap: 1.5rem;">
+                <button onclick="switchTab('news')" id="tab-news" class="tab-btn">News</button>
+                <button onclick="switchTab('researchers')" id="tab-researchers" class="tab-btn active">Elite 10</button>
+                <button onclick="switchTab('predictions')" id="tab-predictions" class="tab-btn">Timeline</button>
             </div>
         </div>
     </nav>
 
-    <header class="pt-32 pb-12 text-center px-6">
-        <h1 id="main-title" class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4">Neural News Feed.</h1>
-        <p class="text-gray-500 max-w-xl mx-auto text-sm md:text-base">Command center for the intelligence explosion. Zero latency. Absolute focus.</p>
+    <header style="padding: 120px 0 60px 0; text-align: center;">
+        <h1 id="main-title" style="font-size: 4.5rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 1rem;">The Elite 10.</h1>
+        <p style="color: #6b7280; font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Mapping the minds and milestones defining the road to ASI.</p>
     </header>
 
-    <main id="content-grid" class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-32">
-        <div class="col-span-full text-center py-20 text-gray-400 animate-pulse uppercase tracking-[0.3em] text-xs">Synchronizing Neural Links...</div>
+    <main class="container">
+        <div id="content-grid" class="grid-layout">
+            </div>
     </main>
 
+    <footer style="padding: 100px 0 50px 0; text-align: center; color: #9ca3af; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;">
+        © 2026 MISSION ASI | Ahmedabad | Never Surrender
+    </footer>
+
     <script>
-        // 1. DATA CACHE (THE ELITE 10)
-        const ELITE_10 = [
-            { name: "Ilya Sutskever", role: "Co-founder, OpenAI/SSI", bio: "Focus on Safe Superintelligence and alignment.", link: "https://x.com/ilyasut", citations: "450k+" },
-            { name: "Andrej Karpathy", role: "Founding Member, OpenAI", bio: "Deep learning expert, creator of Eureka Labs.", link: "https://karpathy.ai", citations: "100k+" },
-            { name: "Demis Hassabis", role: "CEO, Google DeepMind", bio: "Leading the charge toward AGI via AlphaGo/AlphaFold.", link: "https://deepmind.google", citations: "200k+" },
-            { name: "Geoffrey Hinton", role: "Godfather of AI", bio: "Pioneer of backpropagation and deep learning.", link: "https://cs.toronto.edu/~hinton/", citations: "700k+" },
-            { name: "Yann LeCun", role: "Chief AI Scientist, Meta", bio: "Proponent of Objective-Driven AI and World Models.", link: "http://yann.lecun.com", citations: "300k+" },
-            { name: "Sam Altman", role: "CEO, OpenAI", bio: "Driving the commercialization and compute of AGI.", link: "https://x.com/sama", citations: "N/A" },
-            { name: "Dario Amodei", role: "CEO, Anthropic", bio: "Focus on constitutional AI and safety scaling laws.", link: "https://anthropic.com", citations: "50k+" },
-            { name: "Jensen Huang", role: "CEO, NVIDIA", bio: "Architect of the hardware layer for ASI.", link: "https://nvidia.com", citations: "Hardware King" },
-            { name: "Greg Brockman", role: "President, OpenAI", bio: "Systems architect for GPT-4 and beyond.", link: "https://x.com/gdb", citations: "N/A" },
-            { name: "Fei-Fei Li", role: "Stanford Professor", bio: "Creator of ImageNet, pioneer of visual intelligence.", link: "https://profiles.stanford.edu/fei-fei-li", citations: "250k+" }
+        // 1. HARDCODED DATA: ELITE 10 RESEARCHERS
+        const RESEARCHERS = [
+            { name: "Ilya Sutskever", role: "Founder, SSI (Safe Superintelligence)", bio: "Pioneer of AlexNet and former OpenAI Chief Scientist. Now focused exclusively on safety-first superintelligence.", link: "https://x.com/ilyasut", meta: "Citations: 400k+" },
+            { name: "Andrej Karpathy", role: "Founder, Eureka Labs", bio: "Former Tesla AI Director. Building the educational layer for the AI revolution through large-scale LLM training.", link: "https://karpathy.ai", meta: "Deep Learning Expert" },
+            { name: "Demis Hassabis", role: "CEO, Google DeepMind", bio: "Nobel Prize in Chemistry (2024) laureate. Leading AlphaFold and the Gemini ecosystem to solve biology and intelligence.", link: "https://deepmind.google", meta: "Nobel 2024" },
+            { name: "Fei-Fei Li", role: "Stanford Professor / HAI", bio: "Queen Elizabeth Prize (2025) winner. ImageNet creator and leading advocate for human-centered AI governance.", link: "https://profiles.stanford.edu/fei-fei-li", meta: "QE Prize 2025" },
+            { name: "Dario Amodei", role: "CEO, Anthropic", bio: "Leading Claude development with a focus on Constitutional AI and advanced model interpretability.", link: "https://anthropic.com", meta: "Safety Architect" },
+            { name: "Jeff Dean", role: "Chief Scientist, Google DeepMind", bio: "Architect of the modern AI infrastructure, leading Gemini research and large-scale distributed systems.", link: "https://x.com/jeffdean", meta: "Systems Legend" },
+            { name: "Mira Murati", role: "Founder, Thinking Machines Lab", bio: "Former OpenAI CTO. Focused on developing robust AI foundations and adapting systems for human well-being.", link: "https://x.com/miramurati", meta: "Product Visionary" },
+            { name: "Yann LeCun", role: "Chief AI Scientist, Meta", bio: "Turing Award winner. Proponent of World Models and objective-driven AI over traditional LLMs.", link: "http://yann.lecun.com", meta: "Turing Award" },
+            { name: "Sam Altman", role: "CEO, OpenAI", bio: "Driving the global scale of GPT models and the massive compute infrastructure required for AGI.", link: "https://x.com/sama", meta: "Scale King" },
+            { name: "Aravind Srinivas", role: "CEO, Perplexity AI", bio: "Revolutionizing information retrieval through real-time AI-powered search engines.", link: "https://x.com/aravsrinivas", meta: "Search Innovator" }
         ];
 
-        // 2. TAB LOGIC
+        // 2. HARDCODED DATA: TIMELINE
+        const TIMELINE = [
+            { title: "Weakly General AI", date: "Oct 2027", source: "Metaculus Consensus", desc: "Estimated date for AI systems to perform most human cognitive tasks at a basic level." },
+            { title: "Autonomous Research", date: "Late 2026", source: "CFR Prediction", desc: "AI systems projected to autonomously execute software and research projects with minimal oversight." },
+            { title: "ASI Takeoff", date: "2029-2032", source: "Market Forecast", desc: "Probability of intelligence takeoff where AI begins self-improving at an exponential rate." }
+        ];
+
         function switchTab(tab) {
-            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('tab-active'));
-            document.getElementById(`tab-${tab}`).classList.add('tab-active');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
             
-            if(tab === 'news') loadNews();
-            if(tab === 'researchers') loadResearchers();
-            if(tab === 'predictions') loadPredictions();
+            const grid = document.getElementById('content-grid');
+            if (tab === 'researchers') renderResearchers();
+            if (tab === 'predictions') renderTimeline();
+            if (tab === 'news') loadNews();
         }
 
-        function loadResearchers() {
+        function renderResearchers() {
             document.getElementById('main-title').innerText = "The Elite 10.";
             const grid = document.getElementById('content-grid');
-            grid.innerHTML = '';
-            
-            ELITE_10.forEach(person => {
-                grid.innerHTML += `
-                    <div class="apple-card p-8 flex flex-col justify-between">
-                        <div>
-                            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2 block">Researcher | Elite 10k</span>
-                            <h3 class="text-2xl font-bold mb-1">${person.name}</h3>
-                            <p class="text-[10px] text-gray-400 font-bold mb-4 uppercase tracking-tighter">${person.role}</p>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-4">${person.bio}</p>
-                        </div>
-                        <div class="pt-6 border-t border-gray-50 flex justify-between items-center">
-                            <span class="text-[10px] font-bold text-gray-300">CITATIONS: ${person.citations}</span>
-                            <a href="${person.link}" target="_blank" class="text-black text-xs font-bold hover:underline italic underline-offset-4">Explore Portfolio →</a>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        async function loadNews() {
-            document.getElementById('main-title').innerText = "Neural News Feed.";
-            const grid = document.getElementById('content-grid');
-            // Hardcoded "Stability" news if API is missing
-            grid.innerHTML = `
-                <div class="apple-card p-8 border-blue-100 bg-blue-50/20">
-                    <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2 block">System Status</span>
-                    <h3 class="text-2xl font-bold mb-4 italic">Waiting for Command.</h3>
-                    <p class="text-gray-500 text-sm mb-6">Connect your NewsData.io API key in the script to activate real-time tracking.</p>
-                    <a href="https://newsdata.io" target="_blank" class="text-xs font-bold bg-black text-white px-4 py-2 rounded-full inline-block">Get API Key</a>
+            grid.innerHTML = RESEARCHERS.map(r => `
+                <div class="apple-card">
+                    <span class="status-badge">${r.meta}</span>
+                    <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">${r.name}</h2>
+                    <p style="font-size: 0.7rem; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 1.5rem;">${r.role}</p>
+                    <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.6; margin-bottom: 2rem; flex-grow: 1;">${r.bio}</p>
+                    <a href="${r.link}" target="_blank" style="font-size: 0.8rem; font-weight: 700; color: black; text-decoration: none; display: flex; align-items: center; border-top: 1px solid #f3f4f6; padding-top: 1rem;">View Portfolio →</a>
                 </div>
-            `;
+            `).join('');
         }
 
-        function loadPredictions() {
+        function renderTimeline() {
             document.getElementById('main-title').innerText = "ASI Timeline.";
+            const grid = document.getElementById('content-grid');
+            grid.innerHTML = TIMELINE.map(t => `
+                <div class="apple-card">
+                    <span class="status-badge">${t.source}</span>
+                    <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">${t.title}</h2>
+                    <p style="font-size: 1.2rem; font-weight: 800; color: #2563eb; margin-bottom: 1rem;">Target: ${t.date}</p>
+                    <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.6;">${t.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function loadNews() {
+            document.getElementById('main-title').innerText = "Neural News Feed.";
             document.getElementById('content-grid').innerHTML = `
-                <div class="col-span-full apple-card p-12 text-center">
-                    <h2 class="text-4xl font-black mb-4 italic">ESTIMATED AGI: 2029</h2>
-                    <p class="text-gray-400 uppercase tracking-widest text-xs">Based on Metaculus Aggregated Consensus</p>
+                <div class="apple-card" style="grid-column: 1 / -1; text-align: center; padding: 5rem;">
+                    <span class="status-badge">System Ready</span>
+                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem;">News API Integration Pending</h2>
+                    <p style="color: #6b7280; margin-bottom: 2rem;">Insert your NewsData.io API Key into the script to activate real-time synchronization.</p>
+                    <button onclick="alert('Paste your key in the code script to activate!')" style="background: black; color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 700;">Connect Pipeline</button>
                 </div>
             `;
         }
 
-        // 3. INITIALIZATION
-        window.onload = loadResearchers; // Start with Researchers to prove it works
+        // Initialize on Researchers tab
+        window.onload = renderResearchers;
     </script>
 </body>
 </html>
